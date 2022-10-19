@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Rating = ({rating,numReviews}) => {
-    console.log(rating)
   return (
     <div className='rating'>
         <span>

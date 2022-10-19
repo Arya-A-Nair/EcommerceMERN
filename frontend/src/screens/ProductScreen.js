@@ -2,9 +2,11 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useReducer } from "react";
 import axios from "axios";
-import { Row, Col, ListGroup, ListGroupItem, Card, Badge, Button } from "react-bootstrap";
+import { Row, Col, ListGroup,Card, Badge, Button } from "react-bootstrap";
+import MessageBox from "../components/MessageBox";
 import Rating from "../components/Rating";
 import {Helmet} from 'react-helmet-async'
+import LoadingBox from "../components/LoadingBox";
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "FETCH_REQUEST":
@@ -20,7 +22,6 @@ const reducer = (state, action) => {
 const ProductScreen = () => {
 	const param = useParams();
 	const { slug } = param;
-	console.log(slug);
 	const [{ loading, error, product }, dispatch] = useReducer(reducer, {
 		loading: true,
 		product: [],
@@ -40,9 +41,9 @@ const ProductScreen = () => {
 	}, [slug]);
 
 	return loading ? (
-		<div>Loading...</div>
+		<LoadingBox/>
 	) : error ? (
-		<div>{error}</div>
+		<MessageBox variant="danger">Page not found</MessageBox>
 	) : (
 		<div>
 			<Row>
