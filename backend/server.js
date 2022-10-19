@@ -21,6 +21,18 @@ app.get('/api/products/slug/:slug',(req,res)=>{
     
 })
 
+app.get('/api/products/:id',(req,res)=>{
+    const {id}=req.params
+    console.log(id)
+    const product=data.products.find(x=>x._id===id)
+    if(product){
+        res.send(product)
+    }
+    else{
+        res.sendStatus(404)
+    }
+})
+
 const port=process.env.PORT || 5000
 
 app.listen(port,()=>{
