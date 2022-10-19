@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useEffect, useReducer } from "react";
 import axios from "axios";
@@ -7,6 +7,7 @@ import MessageBox from "../components/MessageBox";
 import Rating from "../components/Rating";
 import {Helmet} from 'react-helmet-async'
 import LoadingBox from "../components/LoadingBox";
+import { Store } from "../Store";
 const reducer = (state, action) => {
 	switch (action.type) {
 		case "FETCH_REQUEST":
@@ -20,6 +21,14 @@ const reducer = (state, action) => {
 	}
 };
 const ProductScreen = () => {
+
+	const {state,dispatch:ctxDispatch}=useContext(Store)
+
+	const addToCartHandler=()=>{
+		ctxDispatch({type:'CART_ADD_ITEM',payload:{...product,quantity:1}})
+	}
+
+
 	const param = useParams();
 	const { slug } = param;
 	const [{ loading, error, product }, dispatch] = useReducer(reducer, {
@@ -93,7 +102,7 @@ const ProductScreen = () => {
                 {product.countInStock>0 &&(
                   <ListGroup.Item>
                     <div className="d-grid">
-                      <Button variant="primary">
+                      <Button variant="primary" onClick={addToCartHandler}>
                         Add to Cart
                       </Button>
                     </div>
